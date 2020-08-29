@@ -14,6 +14,10 @@ public final class Main extends JavaPlugin {
 
         new GeneralMethods(this);
 
+        // setup config
+        getConfig().options().copyDefaults();
+        saveDefaultConfig();
+
         // register commands
         getCommand("war").setExecutor(new WarCommand());
 
