@@ -39,6 +39,7 @@ public class RemovePlayerSub extends SubCommand {
         }
 
         if (args.length == 1) {
+            // TODO hit to remove mode ?
             sender.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " No player name specified.");
         } else {
             Player target = Bukkit.getPlayer(args[1]);
