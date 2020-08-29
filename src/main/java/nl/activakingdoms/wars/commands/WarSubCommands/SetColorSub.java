@@ -49,7 +49,6 @@ public class SetColorSub extends SubCommand {
                 ChatColor color;
                 if (args.length == 2) {
                    color = ChatColor.WHITE;
-                   sender.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Color set to red");
                 } else {
                     if (values.contains(args[2].toUpperCase()))
                         color = ChatColor.valueOf(args[2].toUpperCase());
@@ -58,6 +57,7 @@ public class SetColorSub extends SubCommand {
                         return;
                     }
                 }
+                sender.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Color set to " + color + args[2]);
                 team.setColor(color);
             }
 
