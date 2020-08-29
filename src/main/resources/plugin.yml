@@ -1,7 +1,7 @@
 name: ActivaWars
 version: ${project.version}
 main: nl.activakingdoms.wars.Main
-api-version: 1.13
+api-version: "1.13"
 authors: [Jake_O]
 description: De plugin voor het oorlog-systeem van ActivaKingdoms
 website: www.activakingdoms.nl
@@ -29,6 +29,7 @@ permissions:
       activawars.war.addplayer: false
       activawars.war.removeplayer: false
       activawars.war.setcolor: false
+      activawars.war.notifications: false
 
   activawars.war.addteam:
     description: Usage of /war addteam
@@ -49,6 +50,9 @@ permissions:
     default: op
   activawars.war.setcolor:
     description: Usage of /war setcolor
+    default: op
+  activawars.war.notifications:
+    description: Usage of /war notifications
     default: op
   activawars.war.settings:
     description: Usage of /war settings

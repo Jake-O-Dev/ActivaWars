@@ -1,9 +1,14 @@
 package nl.activakingdoms.wars;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+
+import java.util.ArrayList;
 
 public class Handler implements Listener {
 
@@ -23,6 +28,26 @@ public class Handler implements Listener {
                         e.setCancelled(true);
                     }
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
+
+        War war = GeneralMethods.getWar();
+
+        Player player = e.getPlayer();
+        if (war.containsPlayer(player)) {
+            ArrayList<Player> notificationList = new ArrayList<>();
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if (p.hasPermission("activawars.war.notifications")) {
+                    notificationList.add(p);
+                }
+            }
+            notificationList.removeAll(war.getDontNotify());
+            for (Player p : notificationList) {
+                p.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Player " + player.getName() + " broke " + e.getBlock().getType().name() + " at " + e.getBlock().getX() + "," + e.getBlock().getY() + "," + e.getBlock().getZ());
             }
         }
     }

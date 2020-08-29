@@ -8,10 +8,12 @@ public class War {
 
     private ArrayList<Setting> settings;
     private ArrayList<Team> teams;
+    private ArrayList<Player> dontNotify;
 
     public War() {
         settings = new ArrayList<>();
         teams = new ArrayList<>();
+        dontNotify = new ArrayList<>();
 
         ArrayList<String> validAnswers = new ArrayList<>();
         validAnswers.add("Yes");
@@ -82,5 +84,19 @@ public class War {
         return null;
     }
 
+    public ArrayList<Player> getDontNotify() {
+        return dontNotify;
+    }
 
+    public void setDontNotify(ArrayList<Player> dontNotify) {
+        this.dontNotify = dontNotify;
+    }
+
+    public void addDontNotify(Player player) {
+        dontNotify.add(player);
+    }
+
+    public boolean removeDontNotify(Player player) {
+        return dontNotify.remove(player);
+    }
 }
