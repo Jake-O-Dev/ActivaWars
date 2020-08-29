@@ -84,6 +84,16 @@ public class WarCommand implements TabExecutor {
                     completions.add(sub.getName());
             }
 
+            if (args[args.length - 1].length() > 0) {
+                ArrayList<String> corrected = new ArrayList<>();
+                for (String string : completions) {
+                    if (string.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                        corrected.add(string);
+                    }
+                }
+                return corrected;
+            }
+
             return completions;
         } else {
             // suggest arguments for subcommand
@@ -99,7 +109,7 @@ public class WarCommand implements TabExecutor {
                     if (args[args.length -1].length() > 0) {
                         ArrayList<String> corrected = new ArrayList<>();
                         for (String string : completions) {
-                            if (string.startsWith(args[args.length - 1])) {
+                            if (string.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
                                 corrected.add(string);
                             }
                         }
