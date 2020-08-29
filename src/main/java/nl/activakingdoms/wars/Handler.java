@@ -19,12 +19,10 @@ public class Handler implements Listener {
                 Player target = (Player) e.getEntity();
                 if (e.getDamager() instanceof Player) {
                     Player damager = (Player) e.getDamager();
-                        if (war.getTeam(damager).equals(war.getTeam(target)) && war.getTeam(damager) != null) {
-                            e.setCancelled(true);
-                        }
+                    if (war.getTeam(damager).equals(war.getTeam(target)) && war.getTeam(damager) != null) {
+                        e.setCancelled(true);
                     }
-
-
+                }
             }
         }
     }
