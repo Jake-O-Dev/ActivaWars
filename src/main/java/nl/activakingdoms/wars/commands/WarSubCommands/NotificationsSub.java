@@ -38,17 +38,21 @@ public class NotificationsSub extends SubCommand {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                toggle(player);
+                if (toggle(player)) {
+                    player.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Turned notifications " + ChatColor.GREEN + "ON" + ChatColor.RESET + ".");
+                } else {
+                    player.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Turned notifications " + ChatColor.RED + "OFF" + ChatColor.RESET + ".");
+                }
             } else {
                 switch (args[1].toLowerCase()) {
                     case "on":
-                        if (!GeneralMethods.getWar().getDontNotify().contains(player)) {
-                            GeneralMethods.getWar().addDontNotify(player);
-                        }
+                        GeneralMethods.getWar().removeDontNotify(player);
                         player.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Turned notifications " + ChatColor.GREEN + "ON" + ChatColor.RESET + ".");
                         break;
                     case "off":
-                        GeneralMethods.getWar().removeDontNotify(player);
+                        if (!GeneralMethods.getWar().getDontNotify().contains(player)) {
+                            GeneralMethods.getWar().addDontNotify(player);
+                        }
                         player.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Turned notifications " + ChatColor.RED + "OFF" + ChatColor.RESET + ".");
                         break;
                     default:
@@ -67,9 +71,9 @@ public class NotificationsSub extends SubCommand {
     private boolean toggle(Player player) {
         if (!GeneralMethods.getWar().removeDontNotify(player)) {
             GeneralMethods.getWar().addDontNotify(player);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -78,6 +82,6 @@ public class NotificationsSub extends SubCommand {
         completions.add("on");
         completions.add("off");
         completions.add("toggle");
-        return null;
+        return completions;
     }
 }

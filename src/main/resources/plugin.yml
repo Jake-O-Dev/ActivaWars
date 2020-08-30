@@ -54,6 +54,8 @@ permissions:
   activawars.war.notifications:
     description: Usage of /war notifications
     default: op
+
+
   activawars.war.settings:
     description: Usage of /war settings
     default: op
@@ -76,3 +78,19 @@ permissions:
     description: Allows editing of setting "Friendly-fire"
     default: op
 
+
+  activawars.war.teamsettings:
+    description: Usage of /war teamsettings
+    default: op
+    children:
+      activawars.war.teamsettings.blockbreakalerts: false
+
+  activawars.war.teamsettings.*:
+    description: Wildcard permission for editing team settings
+    default: op
+    children:
+      activawars.war.teamsettings.blockbreakalerts: true
+
+  activawars.war.teamsettings.blockbreakalerts:
+    description: Allows editing of team setting "block-break-alerts"
+    default: op

@@ -39,18 +39,18 @@ public class Handler implements Listener {
 
         Player player = e.getPlayer();
         if (war.containsPlayer(player)) {
-            ArrayList<Player> notificationList = new ArrayList<>();
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                if (p.hasPermission("activawars.war.notifications")) {
-                    notificationList.add(p);
+            if (war.getTeam(player).getValue("cause-alerts").equalsIgnoreCase("True")) {
+                ArrayList<Player> notificationList = new ArrayList<>();
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.hasPermission("activawars.war.notifications")) {
+                        notificationList.add(p);
+                    }
                 }
-            }
-            notificationList.removeAll(war.getDontNotify());
-            for (Player p : notificationList) {
-                p.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Player " + player.getName() + " broke " + e.getBlock().getType().name() + " at " + e.getBlock().getX() + "," + e.getBlock().getY() + "," + e.getBlock().getZ());
+                notificationList.removeAll(war.getDontNotify());
+                for (Player p : notificationList) {
+                    p.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Player " + player.getName() + " broke " + e.getBlock().getType().name() + " at " + e.getBlock().getX() + "," + e.getBlock().getY() + "," + e.getBlock().getZ());
+                }
             }
         }
     }
-
-
 }
