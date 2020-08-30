@@ -37,6 +37,8 @@ public class Handler implements Listener {
 
         War war = GeneralMethods.getWar();
 
+        if (war == null) return;
+
         Player player = e.getPlayer();
         if (war.containsPlayer(player)) {
             if (war.getTeam(player).getValue("cause-alerts").equalsIgnoreCase("True")) {
