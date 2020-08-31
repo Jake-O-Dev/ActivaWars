@@ -3,6 +3,7 @@ package nl.activakingdoms.wars;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class War {
 
@@ -10,10 +11,17 @@ public class War {
     private ArrayList<Team> teams;
     private ArrayList<Player> dontNotify;
 
+    private HashMap<Player, Team> hitToAdd;
+    private ArrayList<Player> hitToRemove;
+
     public War() {
         settings = new ArrayList<>();
         teams = new ArrayList<>();
         dontNotify = new ArrayList<>();
+
+
+        hitToAdd = new HashMap<>();
+        hitToRemove = new ArrayList<>();
 
         ArrayList<String> validAnswers = new ArrayList<>();
         validAnswers.add("Yes");
@@ -92,6 +100,36 @@ public class War {
         this.dontNotify = dontNotify;
     }
 
+    //
+    // HIT-TO-ADD / HIT-TO-REMOVE
+    //
+
+    public HashMap<Player, Team> getHitToAdd() {
+        return hitToAdd;
+    }
+
+    public Team removeFromAdd(Player player) {
+        return hitToAdd.remove(player);
+    }
+
+    public void addToAdd(Player player, Team team) {
+        hitToAdd.put(player, team);
+    }
+
+    public ArrayList<Player> getHitToRemove() {
+        return hitToRemove;
+    }
+
+    public boolean removeFromRemove(Player player) {
+        return hitToRemove.remove(player);
+    }
+
+    public void addToRemove(Player player) {
+        hitToRemove.add(player);
+    }
+  
+  
+    // notifications
     public void addDontNotify(Player player) {
         dontNotify.add(player);
     }

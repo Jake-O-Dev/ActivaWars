@@ -2,6 +2,7 @@ package nl.activakingdoms.wars.commands.WarSubCommands;
 
 import nl.activakingdoms.wars.GeneralMethods;
 import nl.activakingdoms.wars.Team;
+import nl.activakingdoms.wars.War;
 import nl.activakingdoms.wars.commands.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,8 +50,23 @@ public class AddPlayerSub extends SubCommand {
                 sender.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " No team found with that name.");
             } else {
                 if (args.length == 2) {
-                    // TODO hit-add detection
-                    sender.sendMessage("TODO hit-add detection");
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        War war = GeneralMethods.getWar();
+                        if (war.removeFromAdd(player) != null) {
+                            player.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Disabled " + ChatColor.RESET + "'hit-to-add' function.");
+                        } else if (war.removeFromRemove(player)) {
+                            war.addToAdd(player, team);
+                            player.sendMessage(GeneralMethods.getPrefix() + ChatColor.GREEN + " Enabled " + ChatColor.RESET + "'hit-to-add' function and" + ChatColor.RED + " disabled " + ChatColor.RESET + "'hit-to-remove' function.");
+                        } else {
+                            war.addToAdd(player, team);
+                            player.sendMessage(GeneralMethods.getPrefix() + ChatColor.GREEN + " Enabled " + ChatColor.RESET + "'hit-to-add' function.");
+                        }
+
+                    } else {
+                        sender.sendMessage("Only player can enter hit-to-add mode.");
+                    }
+
                 } else {
                     Player target = Bukkit.getPlayer(args[2]);
                     if (target == null) {
