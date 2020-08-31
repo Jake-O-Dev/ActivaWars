@@ -9,6 +9,7 @@ public class War {
 
     private ArrayList<Setting> settings;
     private ArrayList<Team> teams;
+    private ArrayList<Player> dontNotify;
 
     private HashMap<Player, Team> hitToAdd;
     private ArrayList<Player> hitToRemove;
@@ -16,6 +17,7 @@ public class War {
     public War() {
         settings = new ArrayList<>();
         teams = new ArrayList<>();
+        dontNotify = new ArrayList<>();
 
 
         hitToAdd = new HashMap<>();
@@ -90,6 +92,13 @@ public class War {
         return null;
     }
 
+    public ArrayList<Player> getDontNotify() {
+        return dontNotify;
+    }
+
+    public void setDontNotify(ArrayList<Player> dontNotify) {
+        this.dontNotify = dontNotify;
+    }
 
     //
     // HIT-TO-ADD / HIT-TO-REMOVE
@@ -117,5 +126,15 @@ public class War {
 
     public void addToRemove(Player player) {
         hitToRemove.add(player);
+    }
+  
+  
+    // notifications
+    public void addDontNotify(Player player) {
+        dontNotify.add(player);
+    }
+
+    public boolean removeDontNotify(Player player) {
+        return dontNotify.remove(player);
     }
 }

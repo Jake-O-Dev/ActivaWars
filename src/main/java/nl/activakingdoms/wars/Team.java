@@ -10,10 +10,17 @@ public class Team {
     private String name;
     private ChatColor color = ChatColor.WHITE;
     private ArrayList<Player> players;
+    private ArrayList<Setting> settings;
 
     public Team (String name) {
         this.name = name;
         players = new ArrayList<>();
+        settings = new ArrayList<>();
+
+        ArrayList<String> validAnswers = new ArrayList<>();
+        validAnswers.add("True");
+        validAnswers.add("False");
+        settings.add(new Setting("cause-alerts", validAnswers, "True", "activawars.war.teamsettings.blockbreakalerts"));
     }
 
     public String getName() {
@@ -59,5 +66,38 @@ public class Team {
             player.setPlayerListName(getColor() + player.getName() + ChatColor.RESET);
         }
 
+    }
+
+    //
+    // Settings
+    //
+
+
+    public ArrayList<Setting> getSettings() {
+        return settings;
+    }
+
+    public Setting getSetting(String name) {
+        for (Setting setting : getSettings()) {
+            if (setting.getName().equalsIgnoreCase(name)) {
+                return setting;
+            }
+        }
+        return null;
+    }
+
+    public void setValue(String name, String value) {
+        Setting setting = getSetting(name);
+        if (setting != null) {
+            setting.setValue(value);
+        }
+    }
+
+    public String getValue(String name) {
+        Setting setting = getSetting(name);
+        if (setting != null) {
+            return setting.getValue();
+        }
+        return null;
     }
 }

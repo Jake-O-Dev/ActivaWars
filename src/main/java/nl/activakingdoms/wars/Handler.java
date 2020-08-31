@@ -1,12 +1,16 @@
 package nl.activakingdoms.wars;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import java.util.ArrayList;
 
 public class Handler implements Listener {
 
@@ -60,5 +64,27 @@ public class Handler implements Listener {
 
     }
 
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e) {
 
+        War war = GeneralMethods.getWar();
+
+        if (war == null) return;
+
+        Player player = e.getPlayer();
+        if (war.containsPlayer(player)) {
+            if (war.getTeam(player).getValue("cause-alerts").equalsIgnoreCase("True")) {
+                ArrayList<Player> notificationList = new ArrayList<>();
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.hasPermission("activawars.war.notifications")) {
+                        notificationList.add(p);
+                    }
+                }
+                notificationList.removeAll(war.getDontNotify());
+                for (Player p : notificationList) {
+                    p.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Player " + player.getName() + " broke " + e.getBlock().getType().name() + " at " + e.getBlock().getX() + "," + e.getBlock().getY() + "," + e.getBlock().getZ());
+                }
+            }
+        }
+    }
 }

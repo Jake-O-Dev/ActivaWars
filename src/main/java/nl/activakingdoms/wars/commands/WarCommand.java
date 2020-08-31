@@ -22,9 +22,11 @@ public class WarCommand implements TabExecutor {
 
         subCommands.add(new SettingsSub());
         subCommands.add(new SetColorSub());
+        subCommands.add(new NotificationsSub());
 
         subCommands.add(new AddTeamSub());
         subCommands.add(new RemoveTeamSub());
+        subCommands.add(new TeamSettingsSub());
 
         subCommands.add(new AddPlayerSub());
         subCommands.add(new RemovePlayerSub());
