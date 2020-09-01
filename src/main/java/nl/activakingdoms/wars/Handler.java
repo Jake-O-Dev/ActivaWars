@@ -1,5 +1,8 @@
 package nl.activakingdoms.wars;
 
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -8,8 +11,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Handler implements Listener {
@@ -81,8 +84,31 @@ public class Handler implements Listener {
                     }
                 }
                 notificationList.removeAll(war.getDontNotify());
+
+
+                TextComponent message = new TextComponent(GeneralMethods.getBungeePrefix());
+                message.addExtra(" ");
+                TextComponent alert = new TextComponent("Player ");
+                alert.setColor(net.md_5.bungee.api.ChatColor.RED);
+
+                TextComponent playerT = new TextComponent(player.getName());
+                playerT.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + player.getName()));
+                TextComponent[] hoverPlayer = {new TextComponent(net.md_5.bungee.api.ChatColor.GRAY + "Click to teleport to " + net.md_5.bungee.api.ChatColor.RED + player.getName())};
+                playerT.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverPlayer));
+                alert.addExtra(playerT);
+
+                alert.addExtra(" broke " + e.getBlock().getType().name() + " at ");
+                TextComponent coords = new TextComponent(e.getBlock().getX() + ", " + e.getBlock().getY() + ", " + e.getBlock().getZ());
+                coords.setColor(net.md_5.bungee.api.ChatColor.RED);
+                coords.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + e.getBlock().getX() + " " + e.getBlock().getY() + " " + e.getBlock().getZ()));
+
+                TextComponent[] hoverCoords = {new TextComponent(net.md_5.bungee.api.ChatColor.GRAY + "Click to teleport to " + net.md_5.bungee.api.ChatColor.RED + e.getBlock().getX() + ", " + e.getBlock().getY() + ", " + e.getBlock().getZ())};
+                coords.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverCoords));
+
+                alert.addExtra(coords);
+                message.addExtra(alert);
                 for (Player p : notificationList) {
-                    p.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Player " + player.getName() + " broke " + e.getBlock().getType().name() + " at " + e.getBlock().getX() + "," + e.getBlock().getY() + "," + e.getBlock().getZ());
+                    p.spigot().sendMessage(message);
                 }
             }
         }

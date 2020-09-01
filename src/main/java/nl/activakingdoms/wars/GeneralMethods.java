@@ -42,6 +42,17 @@ public class GeneralMethods {
         }
     }
 
+    public static String getBungeePrefix() {
+        // load config
+        if (getPlugin().getConfig().isSet("prefix")) {
+            return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', getPlugin().getConfig().getString("prefix"));
+        } else {
+            getPlugin().getLogger().warning("No prefix found in config.");
+            return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', "&7[&6AK&7]");
+        }
+    }
+
+
     public static LuckPerms getApi() {
         return GeneralMethods.api;
     }
