@@ -16,6 +16,7 @@ public class Setting {
         this.validAnswers = validAnswers;
         this.defaultValue = defaultValue;
         this.permission = permission;
+        this.value = defaultValue;
     }
 
 

@@ -1,5 +1,7 @@
 package nl.activakingdoms.wars.commands.WarSubCommands;
 
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import nl.activakingdoms.wars.GeneralMethods;
 import nl.activakingdoms.wars.Setting;
 import nl.activakingdoms.wars.War;
@@ -43,18 +45,7 @@ public class SettingsSub extends SubCommand {
         if (args.length == 1) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                player.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Available settings:");
-                for (Setting setting : GeneralMethods.getWar().getSettings()) {
-                    player.sendMessage("  " + setting.getName() + ":");
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(setting.getValidAnswers().get(0));
-                    ArrayList<String> list = setting.getValidAnswers();
-                    for (int i = 1; i < list.size(); i++) {
-                        sb.append(" / ");
-                        sb.append(list.get(i));
-                    }
-                    player.sendMessage("  - " + sb.toString());
-                }
+                displaySettings(player, GeneralMethods.getWar().getSettings());
             } else {
                 sender.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Only a player doesn't have to specify setting and value.");
             }
@@ -73,6 +64,55 @@ public class SettingsSub extends SubCommand {
 
         else {
             sender.sendMessage(GeneralMethods.getPrefix() + ChatColor.RED + " Invalid amount of arguments.");
+        }
+    }
+
+    private void displaySettings(Player player, ArrayList<Setting> settings) {
+        player.sendMessage(GeneralMethods.getPrefix() + ChatColor.RESET + " Available settings:");
+        for (Setting setting : settings) {
+            if (player.hasPermission(setting.getPermission())) {
+                TextComponent text = new TextComponent(" - ");
+                text.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+
+                TextComponent settingName = new TextComponent(setting.getName());
+                settingName.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+                settingName.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/war settings " + setting.getName() + " "));
+                text.addExtra(settingName);
+                text.addExtra(": ");
+
+
+                String value = setting.getValidAnswers().get(0);
+                TextComponent option = new TextComponent(value);
+                option.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+                if (value.equals(setting.getValue())) {
+                    option.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+                }
+                if (value.equals(setting.getDefault())) {
+                    option.setItalic(true);
+                }
+                option.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/war settings " + setting.getName() + " " + value));
+                text.addExtra(option);
+
+
+                for (int i = 1; i < setting.getValidAnswers().size(); i++) {
+
+                    text.addExtra(" / ");
+
+                    value = setting.getValidAnswers().get(i);
+                    option = new TextComponent(value);
+                    option.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+                    if (value.equals(setting.getValue())) {
+                        option.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+                    }
+                    if (value.equals(setting.getDefault())) {
+                        option.setItalic(true);
+                    }
+                    option.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/war settings " + setting.getName() + " " + value));
+                    text.addExtra(option);
+                }
+
+                player.spigot().sendMessage(text);
+            }
         }
     }
 
